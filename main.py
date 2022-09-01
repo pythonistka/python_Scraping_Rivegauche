@@ -27,14 +27,6 @@ def collect_data():
     pages_count = math.ceil(total_items / 100)
     print(pages_count)
 
-    # response = requests.get(
-    #     url='https://api.rivegauche.ru/rg/v1/newRG/products/search?fields=FULL&currentPage=0&pageSize=100&categoryCode=Perfumery&tag=3959512627673786',
-    #     headers={'user-agent': f'{ua.random}'}
-    # )
-    # with open('totalResults.json', 'w', encoding='utf-8') as file:
-    #     json_data = response.json()
-    #     json.dump(json_data['pagination']['totalResults'], file, indent=4, ensure_ascii=False)
-
     num_page = 0
     result = []
     for item in range(pages_count):
@@ -56,8 +48,32 @@ def collect_data():
         json.dump(result, file, indent=4, ensure_ascii=False)
 
 
+def get_result():
+    with open('result.json', encoding='utf-8') as file:
+        products_data = json.load(file)
+
+        products_data_information = {}
+        for item in products_data:
+            product_name = item.get('name')
+            product_link = item.get('url')
+            product_price = item.get('price').get('value')
+            product_price_base = item.get('prices')[2].get('value')
+            product_price_sale = int(100 - (product_price * 100 / product_price_base))
+
+            products_data_information[product_name] = {
+                'product_link': f'https://rivegauche.ru{product_link}',
+                'product_price_base': product_price_base,
+                'product_price': product_price,
+                'product_price_sale': f'{product_price_sale}%'
+            }
+        # print(products_data_information)
+        with open('total_result.json', 'w', encoding='utf-8') as file:
+            json.dump(products_data_information, file, indent=4, ensure_ascii=False)
+
+
 def main():
-    collect_data()
+    # collect_data()
+    get_result()
 
 
 if __name__ == '__main__':
