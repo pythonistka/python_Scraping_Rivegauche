@@ -72,7 +72,7 @@ def get_result():
 
 
 def main():
-    # collect_data()
+    collect_data()
     get_result()
 
 
