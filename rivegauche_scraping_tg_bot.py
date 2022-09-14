@@ -19,7 +19,7 @@ async def get_weather(message: types.Message):
     try:
         with open('total_result.json', encoding='utf-8') as f:
             content = json.load(f)
-            message_search = message.text.upper()
+            message_search = message.text.lower()
             result = content[message_search]
             link = result["product_link"]
             sale = result["product_price_sale"]
