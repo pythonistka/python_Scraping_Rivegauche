@@ -55,7 +55,7 @@ def get_result():
         products_data_information = {}
         for item in products_data:
             product_name = item.get('name')
-            product_name = product_name.upper()
+            product_name = product_name.lower()
             product_link = item.get('url')
             product_price = item.get('price').get('value')
             product_price_base = item.get('prices')[2].get('value')
